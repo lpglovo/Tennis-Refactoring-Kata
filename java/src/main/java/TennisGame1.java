@@ -19,15 +19,13 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        String score = "";
         if (playersAreEven()) {
             return scoreWhenPlayersAreEven();
         } else if (thereCouldBeAWinner()) {
             return scoreWhenThereCouldBeAWinner();
         } else {
-            score = scoreWhenGameIsRunning();
+            return scoreWhenGameIsRunning();
         }
-        return score;
     }
 
     private boolean playersAreEven() {
@@ -49,26 +47,7 @@ public class TennisGame1 implements TennisGame {
     }
 
     private String scoreWhenGameIsRunning() {
-        return scoreToString(scorePlayer1) + "-" + scoreToString(scorePlayer2);
-    }
-
-    private String scoreToString(int score) {
-        String s = "";
-        switch (score) {
-            case 0:
-                s = "Love";
-                break;
-            case 1:
-                s = "Fifteen";
-                break;
-            case 2:
-                s = "Thirty";
-                break;
-            case 3:
-                s = "Forty";
-                break;
-        }
-        return s;
+        return new Score(scorePlayer1).asString() + "-" + new Score(scorePlayer2).asString();
     }
 
     private String scoreWhenPlayersAreEven() {
@@ -89,5 +68,32 @@ public class TennisGame1 implements TennisGame {
 
         }
         return score;
+    }
+
+    private static class Score {
+        private final int score;
+
+        public Score(int score) {
+            this.score = score;
+        }
+
+        public String asString() {
+            String s = "";
+            switch (score) {
+                case 0:
+                    s = "Love";
+                    break;
+                case 1:
+                    s = "Fifteen";
+                    break;
+                case 2:
+                    s = "Thirty";
+                    break;
+                case 3:
+                    s = "Forty";
+                    break;
+            }
+            return s;
+        }
     }
 }
