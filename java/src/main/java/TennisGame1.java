@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class TennisGame1 implements TennisGame {
 
@@ -19,17 +20,19 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        if (playersAreEven()) {
+        Score scorePlayer1 = new Score(this.scorePlayer1);
+        Score scorePlayer2 = new Score(this.scorePlayer2);
+        if (playersAreEven(scorePlayer1, scorePlayer2)) {
             return scoreWhenPlayersAreEven();
         } else if (thereCouldBeAWinner()) {
             return scoreWhenThereCouldBeAWinner();
         } else {
-            return scoreWhenGameIsRunning();
+            return format(scorePlayer1, scorePlayer2);
         }
     }
 
-    private boolean playersAreEven() {
-        return scorePlayer1 == scorePlayer2;
+    private boolean playersAreEven(Score scorePlayer1, Score scorePlayer2) {
+        return scorePlayer1.equals(scorePlayer2);
     }
 
     private boolean thereCouldBeAWinner() {
@@ -46,8 +49,8 @@ public class TennisGame1 implements TennisGame {
         return score;
     }
 
-    private String scoreWhenGameIsRunning() {
-        return new Score(scorePlayer1).asString() + "-" + new Score(scorePlayer2).asString();
+    private String format(Score scorePlayer1, Score scorePlayer2) {
+        return scorePlayer1.asString() + "-" + scorePlayer2.asString();
     }
 
     private String scoreWhenPlayersAreEven() {
@@ -94,6 +97,19 @@ public class TennisGame1 implements TennisGame {
                     break;
             }
             return s;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Score score1 = (Score) o;
+            return score == score1.score;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(score);
         }
     }
 }
