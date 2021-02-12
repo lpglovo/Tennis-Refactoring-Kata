@@ -24,32 +24,44 @@ public class TennisGame1 implements TennisGame {
         if (scorePlayer1 == scorePlayer2) {
             score = scoreWhenPlayersAreEven();
         } else if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
-            int minusResult = scorePlayer1 - scorePlayer2;
-            if (minusResult == 1) score = "Advantage " + player1Name;
-            else if (minusResult == -1) score = "Advantage " + player2Name;
-            else if (minusResult >= 2) score = "Win for " + player1Name;
-            else score = "Win for player2";
+            score = scoreWhenThereCouldBeAWinner();
         } else {
-            for (int i = 1; i < 3; i++) {
-                if (i == 1) tempScore = scorePlayer1;
-                else {
-                    score += "-";
-                    tempScore = scorePlayer2;
-                }
-                switch (tempScore) {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
+            score = scoreWhenGameIsRunning(score);
+        }
+        return score;
+    }
+
+    private String scoreWhenThereCouldBeAWinner() {
+        String score;
+        int minusResult = scorePlayer1 - scorePlayer2;
+        if (minusResult == 1) score = "Advantage " + player1Name;
+        else if (minusResult == -1) score = "Advantage " + player2Name;
+        else if (minusResult >= 2) score = "Win for " + player1Name;
+        else score = "Win for player2";
+        return score;
+    }
+
+    private String scoreWhenGameIsRunning(String score) {
+        int tempScore;
+        for (int i = 1; i < 3; i++) {
+            if (i == 1) tempScore = scorePlayer1;
+            else {
+                score += "-";
+                tempScore = scorePlayer2;
+            }
+            switch (tempScore) {
+                case 0:
+                    score += "Love";
+                    break;
+                case 1:
+                    score += "Fifteen";
+                    break;
+                case 2:
+                    score += "Thirty";
+                    break;
+                case 3:
+                    score += "Forty";
+                    break;
             }
         }
         return score;
