@@ -21,6 +21,13 @@ You can read more about Tennis scores [here](http://en.wikipedia.org/wiki/Tennis
 
 You need only report the score for the current game. Sets and Matches are out of scope.
 
+## Points
+* One point for every change made to the code using a shortcut or automated IDE feature; for example, automated refactoring, using a code template, or performing a find/replace operation.
+* Two points for every manual edit. Note that a single edit could cover multiple lines of code.
+* Double points for every change made while the code cannot pass the tests after the previous change.
+* Zero points for code formatting; for example, deleting whitespace or optimizing imports.
+* Allow yourselves a maximum of two attempts in each round to determine your best score.
+
 ## Questions to discuss afterwards
 
 * How did it feel to work with such fast, comprehensive tests?
