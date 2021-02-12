@@ -21,14 +21,22 @@ public class TennisGame1 implements TennisGame {
     public String getScore() {
         String score = "";
         int tempScore = 0;
-        if (scorePlayer1 == scorePlayer2) {
-            score = scoreWhenPlayersAreEven();
-        } else if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
-            score = scoreWhenThereCouldBeAWinner();
+        if (playersAreEven()) {
+            return scoreWhenPlayersAreEven();
+        } else if (thereCouldBeAWinner()) {
+            return scoreWhenThereCouldBeAWinner();
         } else {
             score = scoreWhenGameIsRunning(score);
         }
         return score;
+    }
+
+    private boolean playersAreEven() {
+        return scorePlayer1 == scorePlayer2;
+    }
+
+    private boolean thereCouldBeAWinner() {
+        return scorePlayer1 >= 4 || scorePlayer2 >= 4;
     }
 
     private String scoreWhenThereCouldBeAWinner() {
