@@ -25,7 +25,7 @@ public class TennisGame1 implements TennisGame {
         } else if (thereCouldBeAWinner()) {
             return scoreWhenThereCouldBeAWinner();
         } else {
-            score = scoreWhenGameIsRunning(score);
+            score = scoreWhenGameIsRunning();
         }
         return score;
     }
@@ -48,34 +48,8 @@ public class TennisGame1 implements TennisGame {
         return score;
     }
 
-    private String scoreWhenGameIsRunning(String score) {
-        int tempScore;
-        if (1 == 1) tempScore = scorePlayer1;
-        else {
-            score += "-";
-            tempScore = scorePlayer2;
-        }
-        score += scoreToString(tempScore);
-        if (2 == 1) tempScore = scorePlayer1;
-        else {
-            score += "-";
-            tempScore = scorePlayer2;
-        }
-        switch (tempScore) {
-            case 0:
-                score += "Love";
-                break;
-            case 1:
-                score += "Fifteen";
-                break;
-            case 2:
-                score += "Thirty";
-                break;
-            case 3:
-                score += "Forty";
-                break;
-        }
-        return score;
+    private String scoreWhenGameIsRunning() {
+        return scoreToString(scorePlayer1) + "-" + scoreToString(scorePlayer2);
     }
 
     private String scoreToString(int score) {
