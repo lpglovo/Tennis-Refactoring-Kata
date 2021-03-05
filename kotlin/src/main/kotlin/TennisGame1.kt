@@ -1,12 +1,14 @@
-data class Player(val name: String, val score: Int = 0)
+data class Player(val name: String, val score: Int = 0) {
+    fun scores(): Player = this.copy(score = score + 1)
+}
 
 data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
 
     override fun wonPoint(playerName: String): TennisGame =
             if (playerName === player1.name)
-                this.copy(player1 = player1.copy(score = player1.score + 1))
+                this.copy(player1 = player1.scores())
             else
-                this.copy(player2 = player2.copy(score = player2.score + 1))
+                this.copy(player2 = player2.scores())
 
     override fun getScore(): String = when {
         isTied() -> sameScore(player1.score)
