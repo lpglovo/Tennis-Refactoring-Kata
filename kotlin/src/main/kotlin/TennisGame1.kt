@@ -9,13 +9,22 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
                 this.copy(player2 = player2.copy(score = player2.score + 1))
 
     override fun getScore(): String = when {
-        isTied() -> sameScore()
+        isTied() -> sameScore(player1.score)
         playingAdvantages() -> advantagesScore()
         else -> runningGameScore()
     }
 
-    private fun runningGameScore(): String =
-            "${intermediateScore(player1.score)}-${intermediateScore(player2.score)}"
+    private fun isTied() = player1.score == player2.score
+
+    private fun sameScore(score: Int): String =
+            when (score) {
+                0 -> "Love-All"
+                1 -> "Fifteen-All"
+                2 -> "Thirty-All"
+                else -> "Deuce"
+            }
+
+    private fun playingAdvantages() = player1.score >= 4 || player2.score >= 4
 
     private fun advantagesScore(): String =
             when (player1.score - player2.score) {
@@ -25,17 +34,8 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
                 else -> "Win for ${player2.name}"
             }
 
-    private fun isTied() = player1.score == player2.score
-
-    private fun playingAdvantages() = player1.score >= 4 || player2.score >= 4
-
-    private fun sameScore(): String =
-            when (player1.score) {
-                0 -> "Love-All"
-                1 -> "Fifteen-All"
-                2 -> "Thirty-All"
-                else -> "Deuce"
-            }
+    private fun runningGameScore(): String =
+            "${intermediateScore(player1.score)}-${intermediateScore(player2.score)}"
 
     private fun intermediateScore(score: Int): String {
         var res = ""
