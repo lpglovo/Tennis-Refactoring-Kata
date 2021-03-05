@@ -10,11 +10,12 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
             else
                 this.copy(player2 = player2.scores())
 
-    override fun getScore(): String = when {
-        isTied() -> sameScore(player1.score)
-        eitherOneOver40() -> finalScores()
-        else -> runningGameScore()
-    }
+    override fun getScore(): String =
+            when {
+                isTied() -> sameScore(player1.score)
+                eitherOneOver40() -> finalScores()
+                else -> runningGameScore()
+            }
 
     private fun isTied() = player1.score == player2.score
 
