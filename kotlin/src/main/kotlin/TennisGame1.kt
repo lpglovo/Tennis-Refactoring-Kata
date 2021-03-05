@@ -1,51 +1,53 @@
 class TennisGame1(private val player1Name: String, private val player2Name: String) : TennisGame {
 
-    private var m_score1: Int = 0
-    private var m_score2: Int = 0
+    private var playerOneScore: Int = 0
+    private var playerTwoScore: Int = 0
 
     override fun wonPoint(playerName: String) {
-        if (playerName === "player1")
-            m_score1 += 1
+        if (playerName === player1Name)
+            playerOneScore += 1
         else
-            m_score2 += 1
+            playerTwoScore += 1
     }
 
-    override fun getScore(): String {
-        var score = ""
-        var tempScore = 0
-        if (m_score1 == m_score2) {
-            when (m_score1) {
-                0 -> score = "Love-All"
-                1 -> score = "Fifteen-All"
-                2 -> score = "Thirty-All"
-                else -> score = "Deuce"
-            }
-        } else if (m_score1 >= 4 || m_score2 >= 4) {
-            val minusResult = m_score1 - m_score2
-            if (minusResult == 1)
-                score = "Advantage player1"
-            else if (minusResult == -1)
-                score = "Advantage player2"
-            else if (minusResult >= 2)
-                score = "Win for player1"
-            else
-                score = "Win for player2"
-        } else {
-            for (i in 1..2) {
-                if (i == 1)
-                    tempScore = m_score1
-                else {
-                    score += "-"
-                    tempScore = m_score2
-                }
-                when (tempScore) {
-                    0 -> score += "Love"
-                    1 -> score += "Fifteen"
-                    2 -> score += "Thirty"
-                    3 -> score += "Forty"
-                }
-            }
+    override fun getScore(): String = when {
+        isTied() -> sameScore()
+        playingAdvantages() -> advantagesScore()
+        else -> runningGameScore()
+    }
+
+    private fun runningGameScore(): String = "${intermediateScore(playerOneScore)}-${intermediateScore(playerTwoScore)}"
+
+    private fun advantagesScore(): String {
+        val minusResult = playerOneScore - playerTwoScore
+        return when {
+            minusResult == 1 -> "Advantage $player1Name"
+            minusResult == -1 -> "Advantage $player2Name"
+            minusResult >= 2 -> "Win for $player1Name"
+            else -> "Win for $player2Name"
         }
-        return score
+    }
+
+    private fun isTied() = playerOneScore == playerTwoScore
+
+    private fun playingAdvantages() = playerOneScore >= 4 || playerTwoScore >= 4
+
+    private fun sameScore(): String =
+            when (playerOneScore) {
+                0 -> "Love-All"
+                1 -> "Fifteen-All"
+                2 -> "Thirty-All"
+                else -> "Deuce"
+            }
+
+    private fun intermediateScore(tempScore: Int): String {
+        var score1 = ""
+        when (tempScore) {
+            0 -> score1 = "Love"
+            1 -> score1 = "Fifteen"
+            2 -> score1 = "Thirty"
+            3 -> score1 = "Forty"
+        }
+        return score1
     }
 }
