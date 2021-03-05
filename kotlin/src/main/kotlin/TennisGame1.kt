@@ -1,11 +1,6 @@
 data class Player(val name: String, val score: Int = 0)
 
-data class TennisGame1(
-        private val player1Name: String,
-        private val player2Name: String,
-        private val player1: Player = Player(player1Name),
-        private val player2: Player = Player(player2Name)
-) : TennisGame {
+data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
 
     override fun wonPoint(playerName: String): TennisGame =
             if (playerName === player1.name)
