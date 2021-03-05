@@ -1,3 +1,5 @@
+data class Player(val name: String, val score: Int)
+
 data class TennisGame1(
         private val player1Name: String,
         private val player2Name: String,
@@ -5,11 +7,14 @@ data class TennisGame1(
         private val playerTwoScore: Int = 0
 ) : TennisGame {
 
+    private val player1 = Player(player1Name, playerOneScore)
+    private val player2 = Player(player2Name, playerTwoScore)
+
     override fun wonPoint(playerName: String): TennisGame =
-            if (playerName === player1Name)
-                this.copy(playerOneScore = this.playerOneScore + 1)
+            if (playerName === player1.name)
+                this.copy(playerOneScore = player1.score + 1)
             else
-                this.copy(playerTwoScore = playerTwoScore + 1)
+                this.copy(playerTwoScore = player2.score + 1)
 
     override fun getScore(): String = when {
         isTied() -> sameScore()
@@ -18,17 +23,15 @@ data class TennisGame1(
     }
 
     private fun runningGameScore(): String =
-            "${intermediateScore(playerOneScore)}-${intermediateScore(playerTwoScore)}"
+            "${intermediateScore(player1.score)}-${intermediateScore(player2.score)}"
 
-    private fun advantagesScore(): String {
-        val minusResult = playerOneScore - playerTwoScore
-        return when {
-            minusResult == 1 -> "Advantage $player1Name"
-            minusResult == -1 -> "Advantage $player2Name"
-            minusResult >= 2 -> "Win for $player1Name"
-            else -> "Win for $player2Name"
-        }
-    }
+    private fun advantagesScore(): String =
+            when (player1.score - player2.score) {
+                1 -> "Advantage ${player1.name}"
+                -1 -> "Advantage ${player2.name}"
+                2, 3, 4 -> "Win for ${player1.name}"
+                else -> "Win for ${player2.name}"
+            }
 
     private fun isTied() = playerOneScore == playerTwoScore
 
