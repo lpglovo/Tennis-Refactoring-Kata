@@ -4,6 +4,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import java.util.*
+import kotlin.math.max
 
 @RunWith(Parameterized::class)
 class TennisTest(private val player1Score: Int, private val player2Score: Int, private val expectedScore: String) {
@@ -50,8 +51,8 @@ class TennisTest(private val player1Score: Int, private val player2Score: Int, p
     }
 
 
-    fun checkAllScores(gameSupplier: () -> TennisGame) {
-        val highestScore = Math.max(this.player1Score, this.player2Score)
+    private fun checkAllScores(gameSupplier: () -> TennisGame) {
+        val highestScore = max(this.player1Score, this.player2Score)
         var game = gameSupplier()
         for (i in 0 until highestScore) {
             if (i < this.player1Score)
