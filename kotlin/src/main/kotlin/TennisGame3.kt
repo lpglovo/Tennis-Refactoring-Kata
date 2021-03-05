@@ -17,12 +17,12 @@ class TennisGame3(private val p1N: String, private val p2N: String) : TennisGame
         }
     }
 
-    override fun wonPoint(playerName: String) {
+    override fun wonPoint(playerName: String): TennisGame {
         if (playerName === "player1")
             this.p1 += 1
         else
             this.p2 += 1
-
+        return this
     }
 
 }

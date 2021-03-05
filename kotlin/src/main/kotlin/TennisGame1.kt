@@ -3,11 +3,12 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
     private var playerOneScore: Int = 0
     private var playerTwoScore: Int = 0
 
-    override fun wonPoint(playerName: String) {
+    override fun wonPoint(playerName: String): TennisGame {
         if (playerName === player1Name)
             playerOneScore += 1
         else
             playerTwoScore += 1
+        return this
     }
 
     override fun getScore(): String = when {
@@ -16,7 +17,8 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
         else -> runningGameScore()
     }
 
-    private fun runningGameScore(): String = "${intermediateScore(playerOneScore)}-${intermediateScore(playerTwoScore)}"
+    private fun runningGameScore(): String =
+            "${intermediateScore(playerOneScore)}-${intermediateScore(playerTwoScore)}"
 
     private fun advantagesScore(): String {
         val minusResult = playerOneScore - playerTwoScore

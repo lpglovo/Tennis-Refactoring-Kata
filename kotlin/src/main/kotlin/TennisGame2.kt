@@ -106,10 +106,11 @@ class TennisGame2(private val player1Name: String, private val player2Name: Stri
         P2point++
     }
 
-    override fun wonPoint(player: String) {
+    override fun wonPoint(player: String): TennisGame {
         if (player === "player1")
             P1Score()
         else
             P2Score()
+        return this
     }
 }

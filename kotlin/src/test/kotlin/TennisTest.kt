@@ -9,10 +9,9 @@ import java.util.*
 class TennisTest(private val player1Score: Int, private val player2Score: Int, private val expectedScore: String) {
 
     companion object {
-
+        @JvmStatic
+        @get:Parameters
         val allScores: Collection<Array<Any>>
-            @JvmStatic
-            @Parameters
             get() =
                 Arrays.asList(arrayOf(0, 0, "Love-All"),
                         arrayOf(1, 1, "Fifteen-All"),
@@ -49,13 +48,15 @@ class TennisTest(private val player1Score: Int, private val player2Score: Int, p
                         arrayOf(14, 16, "Win for player2"))
     }
 
-    fun checkAllScores(game: TennisGame) {
+
+    fun checkAllScores(gameSupplier: () -> TennisGame) {
         val highestScore = Math.max(this.player1Score, this.player2Score)
+        var game = gameSupplier()
         for (i in 0 until highestScore) {
             if (i < this.player1Score)
-                game.wonPoint("player1")
+                game = game.wonPoint("player1")
             if (i < this.player2Score)
-                game.wonPoint("player2")
+                game = game.wonPoint("player2")
         }
         assertEquals(this.expectedScore, game.getScore())
     }
@@ -63,18 +64,18 @@ class TennisTest(private val player1Score: Int, private val player2Score: Int, p
     @Test
     fun checkAllScoresTennisGame1() {
         val game = TennisGame1("player1", "player2")
-        checkAllScores(game)
+        checkAllScores { game }
     }
 
     @Test
     fun checkAllScoresTennisGame2() {
         val game = TennisGame2("player1", "player2")
-        checkAllScores(game)
+        checkAllScores { game }
     }
 
     @Test
     fun checkAllScoresTennisGame3() {
         val game = TennisGame3("player1", "player2")
-        checkAllScores(game)
+        checkAllScores { game }
     }
 }

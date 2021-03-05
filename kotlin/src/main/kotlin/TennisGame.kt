@@ -1,4 +1,4 @@
 interface TennisGame {
     fun getScore(): String
-    fun wonPoint(playerName: String)
+    fun wonPoint(playerName: String): TennisGame
 }
