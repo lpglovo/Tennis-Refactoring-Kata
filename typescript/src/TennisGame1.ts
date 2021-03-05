@@ -41,28 +41,23 @@ export class TennisGame1 implements TennisGame {
     return this.playScoreMap[score];
   }
 
+  private getFinalScore(): string {
+    const minusResult: number = this.player1.score - this.player2.score;
+    if (minusResult === 1) return "Advantage player1";
+    else if (minusResult === -1) return "Advantage player2";
+    else if (minusResult >= 2) return "Win for player1";
+    else return "Win for player2";
+  }
+
   getScore(): string {
-    let score: string = "";
-    let tempScore: number = 0;
     if (this.player1.score === this.player2.score) {
       return this.getScoreForDraw(this.player1.score);
     }
     if (this.player1.score >= 4 || this.player2.score >= 4) {
-      const minusResult: number = this.player1.score - this.player2.score;
-      if (minusResult === 1) score = "Advantage player1";
-      else if (minusResult === -1) score = "Advantage player2";
-      else if (minusResult >= 2) score = "Win for player1";
-      else score = "Win for player2";
-    } else {
-      for (let i = 1; i < 3; i++) {
-        if (i === 1) tempScore = this.player1.score;
-        else {
-          score += "-";
-          tempScore = this.player2.score;
-        }
-        score += this.getScoreForMidGame(tempScore);
-      }
+      return this.getFinalScore();
     }
-    return score;
+    return `${this.getScoreForMidGame(
+      this.player1.score
+    )}-${this.getScoreForMidGame(this.player2.score)}`;
   }
 }
