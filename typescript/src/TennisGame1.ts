@@ -10,6 +10,19 @@ export class TennisGame1 implements TennisGame {
     name: "",
   };
 
+  private drawScoreMap = {
+    0: "Love-All",
+    1: "Fifteen-All",
+    2: "Thirty-All",
+  };
+
+  private playScoreMap = {
+    0: "Love",
+    1: "Fifteen",
+    2: "Thirty",
+    3: "Forty",
+  };
+
   constructor(player1Name: string, player2Name: string) {
     this.player1.name = player1Name;
     this.player2.name = player2Name;
@@ -20,25 +33,21 @@ export class TennisGame1 implements TennisGame {
     else this.player2.score += 1;
   }
 
+  private getScoreForDraw(score: number): string {
+    return this.drawScoreMap[score] || "Deuce";
+  }
+
+  private getScoreForMidGame(score: number): string {
+    return this.playScoreMap[score];
+  }
+
   getScore(): string {
     let score: string = "";
     let tempScore: number = 0;
     if (this.player1.score === this.player2.score) {
-      switch (this.player1.score) {
-        case 0:
-          score = "Love-All";
-          break;
-        case 1:
-          score = "Fifteen-All";
-          break;
-        case 2:
-          score = "Thirty-All";
-          break;
-        default:
-          score = "Deuce";
-          break;
-      }
-    } else if (this.player1.score >= 4 || this.player2.score >= 4) {
+      return this.getScoreForDraw(this.player1.score);
+    }
+    if (this.player1.score >= 4 || this.player2.score >= 4) {
       const minusResult: number = this.player1.score - this.player2.score;
       if (minusResult === 1) score = "Advantage player1";
       else if (minusResult === -1) score = "Advantage player2";
@@ -51,20 +60,7 @@ export class TennisGame1 implements TennisGame {
           score += "-";
           tempScore = this.player2.score;
         }
-        switch (tempScore) {
-          case 0:
-            score += "Love";
-            break;
-          case 1:
-            score += "Fifteen";
-            break;
-          case 2:
-            score += "Thirty";
-            break;
-          case 3:
-            score += "Forty";
-            break;
-        }
+        score += this.getScoreForMidGame(tempScore);
       }
     }
     return score;
