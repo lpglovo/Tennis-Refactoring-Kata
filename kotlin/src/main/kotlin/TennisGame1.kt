@@ -1,15 +1,15 @@
-class TennisGame1(private val player1Name: String, private val player2Name: String) : TennisGame {
+data class TennisGame1(
+        private val player1Name: String,
+        private val player2Name: String,
+        private val playerOneScore: Int = 0,
+        private val playerTwoScore: Int = 0
+) : TennisGame {
 
-    private var playerOneScore: Int = 0
-    private var playerTwoScore: Int = 0
-
-    override fun wonPoint(playerName: String): TennisGame {
-        if (playerName === player1Name)
-            playerOneScore += 1
-        else
-            playerTwoScore += 1
-        return this
-    }
+    override fun wonPoint(playerName: String): TennisGame =
+            if (playerName === player1Name)
+                this.copy(playerOneScore = this.playerOneScore + 1)
+            else
+                this.copy(playerTwoScore = playerTwoScore + 1)
 
     override fun getScore(): String = when {
         isTied() -> sameScore()
