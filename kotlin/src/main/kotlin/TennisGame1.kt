@@ -10,7 +10,7 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
 
     override fun getScore(): String = when {
         isTied() -> sameScore(player1.score)
-        playingAdvantages() -> advantagesScore()
+        eitherOneOver40() -> finalScores()
         else -> runningGameScore()
     }
 
@@ -24,13 +24,13 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
                 else -> "Deuce"
             }
 
-    private fun playingAdvantages() = player1.score >= 4 || player2.score >= 4
+    private fun eitherOneOver40() = player1.score >= 4 || player2.score >= 4
 
-    private fun advantagesScore(): String =
+    private fun finalScores(): String =
             when (player1.score - player2.score) {
                 1 -> "Advantage ${player1.name}"
                 -1 -> "Advantage ${player2.name}"
-                2, 3, 4 -> "Win for ${player1.name}"
+                in (2..4) -> "Win for ${player1.name}"
                 else -> "Win for ${player2.name}"
             }
 
