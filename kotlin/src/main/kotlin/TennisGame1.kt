@@ -1,20 +1,17 @@
-data class Player(val name: String, val score: Int)
+data class Player(val name: String, val score: Int = 0)
 
 data class TennisGame1(
         private val player1Name: String,
         private val player2Name: String,
-        private val playerOneScore: Int = 0,
-        private val playerTwoScore: Int = 0
+        private val player1: Player = Player(player1Name),
+        private val player2: Player = Player(player2Name)
 ) : TennisGame {
-
-    private val player1 = Player(player1Name, playerOneScore)
-    private val player2 = Player(player2Name, playerTwoScore)
 
     override fun wonPoint(playerName: String): TennisGame =
             if (playerName === player1.name)
-                this.copy(playerOneScore = player1.score + 1)
+                this.copy(player1 = player1.copy(score = player1.score + 1))
             else
-                this.copy(playerTwoScore = player2.score + 1)
+                this.copy(player2 = player2.copy(score = player2.score + 1))
 
     override fun getScore(): String = when {
         isTied() -> sameScore()
@@ -33,26 +30,26 @@ data class TennisGame1(
                 else -> "Win for ${player2.name}"
             }
 
-    private fun isTied() = playerOneScore == playerTwoScore
+    private fun isTied() = player1.score == player2.score
 
-    private fun playingAdvantages() = playerOneScore >= 4 || playerTwoScore >= 4
+    private fun playingAdvantages() = player1.score >= 4 || player2.score >= 4
 
     private fun sameScore(): String =
-            when (playerOneScore) {
+            when (player1.score) {
                 0 -> "Love-All"
                 1 -> "Fifteen-All"
                 2 -> "Thirty-All"
                 else -> "Deuce"
             }
 
-    private fun intermediateScore(tempScore: Int): String {
-        var score1 = ""
-        when (tempScore) {
-            0 -> score1 = "Love"
-            1 -> score1 = "Fifteen"
-            2 -> score1 = "Thirty"
-            3 -> score1 = "Forty"
+    private fun intermediateScore(score: Int): String {
+        var res = ""
+        when (score) {
+            0 -> res = "Love"
+            1 -> res = "Fifteen"
+            2 -> res = "Thirty"
+            3 -> res = "Forty"
         }
-        return score1
+        return res
     }
 }

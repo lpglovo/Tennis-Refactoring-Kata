@@ -9,9 +9,10 @@ import java.util.*
 class TennisTest(private val player1Score: Int, private val player2Score: Int, private val expectedScore: String) {
 
     companion object {
-        @JvmStatic
-        @get:Parameters
+
         val allScores: Collection<Array<Any>>
+            @JvmStatic
+            @Parameters
             get() =
                 Arrays.asList(arrayOf(0, 0, "Love-All"),
                         arrayOf(1, 1, "Fifteen-All"),
