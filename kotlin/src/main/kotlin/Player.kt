@@ -1,26 +1,25 @@
-data class Player(val name: String, private val score: Int = 0) {
-    fun scores(): Player = this.copy(score = score + 1)
-    fun hasSameScoreAs(other: Player): Boolean = this.score == other.score
+import NonWinningScore.FORTY
+import NonWinningScore.ZERO
+
+data class Player(val name: String, private val internalScore: Score = ZERO) {
+
+    fun scores(): Player = this.copy(internalScore = internalScore.next())
+
+    fun hasSameScoreAs(other: Player): Boolean = this.internalScore == other.internalScore
+
     fun hasAdvantageOver(other: Player): Boolean {
-        return hasScoredOver40() && (this.score - other.score) == 1
+        return hasScoredOver40() && this.internalScore.distance(other.internalScore) == 1
     }
 
     fun hasWonOver(other: Player): Boolean {
-        return hasScoredOver40() && (this.score - other.score) >= 2
+        return hasScoredOver40() && this.internalScore.distance(other.internalScore) >= 2
     }
 
     fun hasScoredOver30(): Boolean {
-        return this.score > 2
+        return this.internalScore is FORTY || this.internalScore is FinalScore
     }
 
-    fun score(): String =
-            when (score) {
-                0 -> "Love"
-                1 -> "Fifteen"
-                2 -> "Thirty"
-                3 -> "Forty"
-                else -> ""
-            }
+    fun score(): String = internalScore.representation
 
-    private fun hasScoredOver40(): Boolean = this.score >= 4
+    private fun hasScoredOver40(): Boolean = this.internalScore is FinalScore
 }
