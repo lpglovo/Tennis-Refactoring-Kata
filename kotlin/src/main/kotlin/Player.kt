@@ -12,10 +12,10 @@ data class Player(val name: String, private val internalScore: Score = ZERO) {
     fun hasScoredOver30(): Boolean = this.internalScore is FORTY || hasScoredOver40()
 
     fun hasAdvantageOver(other: Player): Boolean =
-        hasScoredOver40() && this.internalScore.pointsDifferenceOver(other.internalScore) == 1
+        hasScoredOver40() && this.internalScore pointsDifferenceOver other.internalScore == 1
 
     fun hasWonOver(other: Player): Boolean =
-        hasScoredOver40() && this.internalScore.pointsDifferenceOver(other.internalScore) >= 2
+        hasScoredOver40() && this.internalScore pointsDifferenceOver other.internalScore >= 2
 
     private fun hasScoredOver40(): Boolean = this.internalScore is FinalScore
 }
