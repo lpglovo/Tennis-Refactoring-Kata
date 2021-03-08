@@ -8,11 +8,11 @@ data class Player(val name: String, private val internalScore: Score = ZERO) {
     fun hasSameScoreAs(other: Player): Boolean = this.internalScore == other.internalScore
 
     fun hasAdvantageOver(other: Player): Boolean {
-        return hasScoredOver40() && this.internalScore.distance(other.internalScore) == 1
+        return hasScoredOver40() && this.internalScore.pointsDifferenceOver(other.internalScore) == 1
     }
 
     fun hasWonOver(other: Player): Boolean {
-        return hasScoredOver40() && this.internalScore.distance(other.internalScore) >= 2
+        return hasScoredOver40() && this.internalScore.pointsDifferenceOver(other.internalScore) >= 2
     }
 
     fun hasScoredOver30(): Boolean {

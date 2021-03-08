@@ -1,7 +1,7 @@
 sealed class Score(open val value: Int = 0, val representation: String) {
     abstract fun next(): Score
 
-    fun distance(other: Score): Int = this.value - other.value
+    fun pointsDifferenceOver(other: Score): Int = this.value - other.value
 }
 
 sealed class NonWinningScore(value: Int, representation: String) : Score(value, representation) {
