@@ -8,22 +8,16 @@ data class TennisGame1(val player1: Player, val player2: Player) : TennisGame {
 
     override fun getScore(): String =
             when {
-                player1.hasSameScoreAs(player2) -> sameScore(player1)
+                player1.hasSameScoreAs(player2) ->
+                    if (player1.hasScoredOver30()) "Deuce" else "${player1.score()}-All"
+
                 player1.hasAdvantageOver(player2) -> "Advantage ${player1.name}"
                 player2.hasAdvantageOver(player1) -> "Advantage ${player2.name}"
+
                 player1.hasWonOver(player2) -> "Win for ${player1.name}"
                 player2.hasWonOver(player1) -> "Win for ${player2.name}"
-                else -> runningGameScore()
-            }
 
-    private fun sameScore(player: Player): String =
-            if (player.hasScoredOver30()) {
-                "Deuce"
-            } else {
-                "${player.score()}-All"
+                else -> "${player1.score()}-${player2.score()}"
             }
-
-    private fun runningGameScore(): String =
-            "${player1.score()}-${player2.score()}"
 
 }
